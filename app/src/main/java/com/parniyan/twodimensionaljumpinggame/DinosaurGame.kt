@@ -36,15 +36,15 @@ fun TRexGame(
     trexDrawable: Drawable,
     obstacleDrawable: Drawable
 ) {
-    var trexY by remember { mutableStateOf(0f) }
+    var trexY by remember { mutableStateOf(canvasHeight - 50f) }
     var obstacleX by remember { mutableStateOf(canvasWidth.toFloat()) }
     var gameState by remember { mutableStateOf<GameState>(GameState.RUNNING) }
-    val jumpForce = -20
+    val jumpForce = -200f // Increased jump force
+    val maxJumpHeight = 400f // Increased maximum jump height
     val obstacleSpeed = 5
     val context = LocalContext.current
     val trexImage = trexDrawable.toBitmap().asImageBitmap()
     val obstacleImage = obstacleDrawable.toBitmap().asImageBitmap()
-
 
     Canvas(
         modifier = modifier
@@ -53,8 +53,8 @@ fun TRexGame(
                 detectTapGestures(
                     onTap = {
                         // Handle space key press or tap on the canvas
-                        if (gameState is GameState.RUNNING && trexY >= 0) {
-                            trexY = jumpForce.toFloat()
+                        if (gameState is GameState.RUNNING && trexY >= canvasHeight - 50f) {
+                            trexY = maxOf(trexY + jumpForce, canvasHeight - maxJumpHeight)
                         }
                     }
                 )
@@ -62,6 +62,7 @@ fun TRexGame(
     ) {
         val option = BitmapFactory.Options()
         option.inPreferredConfig = Bitmap.Config.ARGB_8888
+
         // Draw the T-Rex
         drawImage(
             image = trexImage,
@@ -81,7 +82,7 @@ fun TRexGame(
                 obstacleX -= obstacleSpeed
 
                 // Apply gravity to the T-Rex
-                trexY = maxOf(trexY + 2, 0f)
+                trexY = minOf(trexY + 10f, canvasHeight - 50f)
 
                 // Check for collision
                 if (obstacleX <= 100f && trexY >= canvasHeight - 50f) {
