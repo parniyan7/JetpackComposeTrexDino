@@ -39,9 +39,10 @@ fun TRexGame(
     var trexY by remember { mutableStateOf(canvasHeight - 50f) }
     var obstacleX by remember { mutableStateOf(canvasWidth.toFloat()) }
     var gameState by remember { mutableStateOf<GameState>(GameState.RUNNING) }
-    val jumpForce = -200f // Increased jump force
-    val maxJumpHeight = 400f // Increased maximum jump height
+    val jumpForce = -200f
+    val maxJumpHeight = 400f
     val obstacleSpeed = 5
+    val gravityForce = 2f // Decreased gravity force
     val context = LocalContext.current
     val trexImage = trexDrawable.toBitmap().asImageBitmap()
     val obstacleImage = obstacleDrawable.toBitmap().asImageBitmap()
@@ -82,7 +83,7 @@ fun TRexGame(
                 obstacleX -= obstacleSpeed
 
                 // Apply gravity to the T-Rex
-                trexY = minOf(trexY + 10f, canvasHeight - 50f)
+                trexY = minOf(trexY + gravityForce, canvasHeight - 50f)
 
                 // Check for collision
                 if (obstacleX <= 100f && trexY >= canvasHeight - 50f) {
