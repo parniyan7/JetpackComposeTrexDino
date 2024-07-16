@@ -1,7 +1,6 @@
 # T-Rex Dino 2D Jetpack Compose Game
 
-
-https://github.com/user-attachments/assets/62ec0b19-82ce-44c0-9002-fcacadfda10c
+![trex](https://github.com/user-attachments/assets/4151ecb1-0442-4d01-9c03-cc4888d93ea1)
 
 
 ## Introduction
