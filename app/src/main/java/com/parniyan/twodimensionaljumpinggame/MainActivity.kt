@@ -32,6 +32,7 @@ class MainActivity : ComponentActivity() {
                     TRexGame(
                         modifier = Modifier
                             .padding(innerPadding)
+                            .fillMaxSize()
                             .background(color = Color.White),
                         trexDrawable = trexDrawable,
                         obstacleDrawable = obstacleDrawable

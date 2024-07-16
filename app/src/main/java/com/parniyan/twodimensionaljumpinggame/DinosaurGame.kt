@@ -6,6 +6,7 @@ import android.graphics.Paint
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -15,12 +16,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.dp
 
 /**
  ** Created by Parniyan on 7/15/2024.
@@ -46,6 +51,8 @@ fun TRexGame(
     val context = LocalContext.current
     val trexImage = trexDrawable.toBitmap().asImageBitmap()
     val obstacleImage = obstacleDrawable.toBitmap().asImageBitmap()
+
+    val screenWidth = LocalConfiguration.current.screenWidthDp
 
     Canvas(
         modifier = modifier
@@ -76,6 +83,13 @@ fun TRexGame(
             topLeft = Offset(obstacleX, canvasHeight - 20f)
         )
 
+        drawLine(
+            strokeWidth = 1.dp.toPx(),
+            start = Offset(x = 0.dp.toPx(), y = canvasHeight.toFloat()),
+            end = Offset(x = canvasWidth.toFloat() *2, y = canvasHeight.toFloat()),
+            color = Color.Black,
+        )
+
         // Update game state
         when (gameState) {
             is GameState.RUNNING -> {
@@ -99,7 +113,7 @@ fun TRexGame(
             is GameState.GAME_OVER -> {
                 drawContext.canvas.nativeCanvas.drawText(
                     "Game Over",
-                    (canvasWidth / 2) - 100f,
+                    (canvasWidth / 2).toFloat(),
                     canvasHeight / 2f,
                     Paint().apply {
                         color = Color.Black.toArgb()
