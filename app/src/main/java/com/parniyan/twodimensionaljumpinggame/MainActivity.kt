@@ -9,12 +9,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.content.ContextCompat
 import com.parniyan.twodimensionaljumpinggame.ui.theme.TwoDimensionalJumpingGameTheme
 
@@ -26,7 +23,7 @@ class MainActivity : ComponentActivity() {
             TwoDimensionalJumpingGameTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     val context = LocalContext.current
-                    val trexDrawable: Drawable = ContextCompat.getDrawable(context, R.drawable.dino_prev_ui)!!
+                    val trexDrawable: Drawable = ContextCompat.getDrawable(context, R.drawable.dino)!!
                     val obstacleDrawable: Drawable = ContextCompat.getDrawable(context, R.drawable.tree)!!
 
                     TRexGame(
