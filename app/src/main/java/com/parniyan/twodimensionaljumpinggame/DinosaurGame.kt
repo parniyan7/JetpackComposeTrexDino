@@ -10,6 +10,8 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -20,8 +22,6 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 
 /**
@@ -38,19 +38,17 @@ fun TRexGame(
     trexDrawable: Drawable,
     obstacleDrawable: Drawable
 ) {
-    var trexY by remember { mutableStateOf(canvasHeight - 50f) }
-    var obstacleX by remember { mutableStateOf(canvasWidth.toFloat()) }
+    var trexY by remember { mutableFloatStateOf(canvasHeight - 50f) }
+    var obstacleX by remember { mutableFloatStateOf(canvasWidth.toFloat()) }
     var gameState by remember { mutableStateOf<GameState>(GameState.RUNNING) }
-    var score by remember { mutableStateOf(0) }
+    var score by remember { mutableIntStateOf(0) }
     val jumpForce = -200f
     val maxJumpHeight = 400f
     val obstacleSpeed = 5
     val gravityForce = 2f // Decreased gravity force
-    val context = LocalContext.current
     val trexImage = trexDrawable.toBitmap().asImageBitmap()
     val obstacleImage = obstacleDrawable.toBitmap().asImageBitmap()
 
-    val screenWidth = LocalConfiguration.current.screenWidthDp
 
     Canvas(
         modifier = modifier
@@ -62,7 +60,7 @@ fun TRexGame(
                         if (gameState is GameState.RUNNING && trexY >= canvasHeight - 50f) {
                             trexY = maxOf(trexY + jumpForce, canvasHeight - maxJumpHeight)
                         }
-                        //score
+                        //increase score
                         score += 1
                     }
                 )
@@ -77,12 +75,13 @@ fun TRexGame(
             topLeft = Offset(50f, trexY)
         )
 
-        // Draw the obstacle
+        // Draw the obstacle tree
         drawImage(
             image = obstacleImage,
             topLeft = Offset(obstacleX, canvasHeight - 20f)
         )
 
+        //Draw earth line
         drawLine(
             strokeWidth = 1.dp.toPx(),
             start = Offset(x = 0.dp.toPx(), y = canvasHeight.toFloat()),
